@@ -8,6 +8,9 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+
 
 /**
  * @auther: Lyn
@@ -23,6 +26,12 @@ public class HelloController {
     @RequestMapping("/hello")
     public String index() {
         ServiceInstance instance = client.getLocalServiceInstance();
+        int delay = new Random().nextInt(3000);
+        try {
+            TimeUnit.MILLISECONDS.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         logger.info(instance.getHost() + ":" + instance.getServiceId());
         return "hello world";
     }
